@@ -27,7 +27,7 @@ class OwnerCourseMixin(OwnerMixin,LoginRequiredMixin,PermissionRequiredMixin):
 
 
 class OwnerCourseEditMixin(OwnerCourseMixin, OwnerEditMixin):
-    template_name = 'courses/manage/course/form.html'
+    template_name = 'manage/course/form.html'
 
 
 """Lists the courses created by the user. It inherits 
@@ -36,7 +36,7 @@ attribute for a template to list courses"""
 
 
 class ManageCourseListView(OwnerCourseMixin, ListView):
-    template_name = 'courses/manage/course/list.html'
+    template_name = 'manage/course/list.html'
     permission_required = 'courses.view_course'
 
 
@@ -67,5 +67,5 @@ to confirm the course deletion.
 
 
 class CourseDeleteView(OwnerCourseMixin, DeleteView):
-    template_name = 'courses/manage/course/delete.html'
+    template_name = 'manage/course/delete.html'
     permission_required = 'courses.delete_course'
