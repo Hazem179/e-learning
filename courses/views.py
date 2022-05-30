@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from .models import Course
 
 
@@ -19,7 +20,7 @@ class OwnerEditMixin(object):
         return super().form_valid(form)
 
 
-class OwnerCourseMixin(OwnerMixin):
+class OwnerCourseMixin(OwnerMixin,LoginRequiredMixin,PermissionRequiredMixin):
     model = Course
     fields = ['subject', 'title', 'slug', 'overview']
     success_url = reverse_lazy('manage_course_list')
@@ -36,6 +37,7 @@ attribute for a template to list courses"""
 
 class ManageCourseListView(OwnerCourseMixin, ListView):
     template_name = 'courses/manage/course/list.html'
+    permission_required = 'courses.view_course'
 
 
 """ Uses a model form to create a new Course object. 
@@ -45,7 +47,7 @@ in OwnerCourseEditMixin"""
 
 
 class CourseCreateView(OwnerCourseEditMixin, CreateView):
-    pass
+    permission_required = 'courses.add_course'
 
 
 """Allows the editing of an existing Course object. 
@@ -55,7 +57,7 @@ in OwnerCourseEditMixin."""
 
 
 class CourseUpdateView(OwnerCourseEditMixin, UpdateView):
-    pass
+    permission_required = 'courses.change_course'
 
 
 """ Inherits from OwnerCourseMixin and the generic 
@@ -66,3 +68,4 @@ to confirm the course deletion.
 
 class CourseDeleteView(OwnerCourseMixin, DeleteView):
     template_name = 'courses/manage/course/delete.html'
+    permission_required = 'courses.delete_course'
