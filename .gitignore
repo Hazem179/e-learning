@@ -1,2 +1,5 @@
 /venv
 /E_learning/settings.py
+/student/migrations
+/courses/migrations
+.gitignore
