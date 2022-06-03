@@ -53,6 +53,7 @@ class Course(models.Model):
     owner = models.ForeignKey(User,
                               related_name='courses_created',
                               on_delete=models.CASCADE)
+    student = models.ManyToManyField(User,related_name='courses_joined',blank=True)
     subject = models.ForeignKey(Subject,
                                 related_name='courses',
                                 on_delete=models.CASCADE)
@@ -95,3 +96,4 @@ class Content(models.Model):
 
     class Meta:
         ordering = ['order']
+
