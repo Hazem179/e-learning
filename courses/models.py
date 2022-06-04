@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.auth.models import User
+from django.template.loader import render_to_string
 from .fields import OrderField
 
 
@@ -20,6 +21,9 @@ class ItemBase(models.Model):
 
     def __str__(self):
         return self.title
+
+    def render(self):
+        return render_to_string(f'content/{self._meta.model_name}.html',{'item':self})
 
 
 class Text(ItemBase):
@@ -73,7 +77,7 @@ class Module(models.Model):
     course = models.ForeignKey(Course, related_name='modules', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    order = OrderField(blank=True, for_fields=['course'])
+    order = OrderField(blank=True, for_fields=['courses'])
 
     class Meta:
         ordering = ['order']

@@ -36,7 +36,7 @@ class OwnerCourseMixin(OwnerMixin, LoginRequiredMixin, PermissionRequiredMixin):
 
 
 class OwnerCourseEditMixin(OwnerCourseMixin, OwnerEditMixin):
-    template_name = 'manage/course/form.html'
+    template_name = 'manage/courses/form.html'
 
 
 """Lists the courses created by the user. It inherits 
@@ -71,7 +71,7 @@ class CourseUpdateView(OwnerCourseEditMixin, UpdateView):
 
 """ Inherits from OwnerCourseMixin and the generic 
 DeleteView. It defines a specific template_name attribute for a template 
-to confirm the course deletion.
+to confirm the courses deletion.
 """
 
 
@@ -97,8 +97,8 @@ that matches the HTTP method used. A GET request is delegated to the get()
 method and a POST request to post(), respectively. In this method, you use 
 the get_object_or_404() shortcut function to get the Course object for the 
 given id parameter that belongs to the current user. You include this code in 
-the dispatch() method because you need to retrieve the course for both GET
-and POST requests. You save it into the course attribute of the view to make 
+the dispatch() method because you need to retrieve the courses for both GET
+and POST requests. You save it into the courses attribute of the view to make 
 it accessible to other methods."""
 
     def dispatch(self, request, pk):
@@ -107,7 +107,7 @@ it accessible to other methods."""
 
     def get(self, request, *args, **kwargs):
         formset = self.get_formset()
-        return self.render_to_response({'course': self.course,
+        return self.render_to_response({'courses': self.course,
                                         'formset': formset})
 
     def post(self, request, *args, **kwargs):
@@ -115,7 +115,7 @@ it accessible to other methods."""
         if formset.is_valid():
             formset.save()
             return redirect('manage_course_list')
-        return self.render_to_response({'course': self.course,
+        return self.render_to_response({'courses': self.course,
                                         'formset': formset})
 
 
